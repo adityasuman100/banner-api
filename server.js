@@ -13,7 +13,7 @@ app.use(express.json());
 
 const db = mysql.createPool({
   host: process.env.HOST,
-  port: process.env.PORT,
+  port: process.env.PORT_DB,
   user: process.env.USER,
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
@@ -56,6 +56,9 @@ app.post('/api/banner', async (req, res) => {
   }
 });
 
-app.listen(5000, () => {
-  console.log('Server running on port 5000');
+
+const port = process.env.PORT || 2030;
+
+app.listen(port, () => {
+  console.log("Server running on port 5000");
 });
