@@ -26,7 +26,7 @@ const Banner = ({ description, link, timer, visible }) => {
 
   if (!bannerVisible || timeLeft <= 0) return null;
 
-  const formatTime = (seconds) => {
+  const formatTime = seconds => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${minutes}:${secs < 10 ? `0${secs}` : secs}`;
@@ -34,7 +34,7 @@ const Banner = ({ description, link, timer, visible }) => {
 
   return (
     <div style={styles.banner}>
-      <h3 style={styles.title}>This is our Banner</h3> {/* Added "Banner" title */}
+      <h3 style={styles.heading}>Banner</h3>
       <p style={styles.description}>{description}</p>
       <p style={styles.timer}>{formatTime(timeLeft)}</p>
       {link && (
@@ -48,20 +48,23 @@ const Banner = ({ description, link, timer, visible }) => {
 
 const styles = {
   banner: {
-    backgroundColor: '#000', // Black background
-    color: '#fff', // White text
-    padding: '20px',
+    backgroundColor: '#000',
+    color: '#fff',
+    padding: '10px',
     textAlign: 'center',
-    border: '1px solid #d32f2f', // Red border
+    border: '1px solid #d32f2f',
     borderRadius: '4px',
     marginBottom: '10px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.3)', // Darker shadow
+    boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000,
   },
-  title: {
+  heading: {
     fontSize: '20px',
-    fontWeight: 'bold',
     marginBottom: '10px',
-    color: '#f44336', // Bright red text for the title
   },
   description: {
     fontSize: '18px',
@@ -71,10 +74,10 @@ const styles = {
     fontSize: '24px',
     fontWeight: 'bold',
     marginBottom: '10px',
-    color: '#d32f2f', // Red timer
+    color: '#d32f2f',
   },
   link: {
-    color: '#f44336', // Bright red link
+    color: '#f44336',
     textDecoration: 'none',
     fontSize: '16px',
   },

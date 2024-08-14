@@ -5,6 +5,7 @@ const Dashboard = ({ onUpdate }) => {
   const [description, setDescription] = useState('');
   const [timer, setTimer] = useState(0);
   const [link, setLink] = useState('');
+  const [bannerVisible, setBannerVisible] = useState(true);
 
   useEffect(() => {
     const fetchBanner = async () => {
@@ -13,6 +14,7 @@ const Dashboard = ({ onUpdate }) => {
         setDescription(response.data.description);
         setTimer(response.data.timer);
         setLink(response.data.link);
+        setBannerVisible(true);
       } catch (error) {
         console.error('Error fetching banner data:', error);
       }
@@ -24,13 +26,21 @@ const Dashboard = ({ onUpdate }) => {
   const handleUpdate = async () => {
     try {
       await axios.post('http://localhost:5000/api/banner', { description, timer, link });
-      // alert('Banner updated successfully!');
       if (onUpdate) {
-        onUpdate({ description, timer, link, visible: true });
+        onUpdate({ description, timer, link, visible: bannerVisible });
       }
     } catch (error) {
       console.error('Error updating banner:', error);
       alert('Error updating banner');
+    }
+  };
+
+  const toggleVisibility = () => {
+    if (timer > 0) {
+      setBannerVisible(prev => !prev);
+      if (onUpdate) {
+        onUpdate({ description, timer, link, visible: !bannerVisible });
+      }
     }
   };
 
@@ -65,6 +75,13 @@ const Dashboard = ({ onUpdate }) => {
         />
       </div>
       <button onClick={handleUpdate} style={styles.button}>Update Banner</button>
+      <button
+        onClick={toggleVisibility}
+        style={{ ...styles.button, marginTop: '10px' }}
+        disabled={timer <= 0}
+      >
+        {bannerVisible ? 'Hide Banner' : 'Show Banner'}
+      </button>
     </div>
   );
 };
@@ -72,16 +89,18 @@ const Dashboard = ({ onUpdate }) => {
 const styles = {
   dashboard: {
     padding: '20px',
-    border: '1px solid #d32f2f', // Red border
+    border: '1px solid #d32f2f',
     borderRadius: '4px',
-    backgroundColor: '#000', // Black background
-    boxShadow: '0 2px 4px rgba(0,0,0,0.3)', // Darker shadow
+    backgroundColor: '#000',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
     maxWidth: '600px',
-    margin: '140px auto 20px', // Margin with 140px top, 20px bottom, auto left/right
-    color: '#fff', // White text
+    margin: '173px auto 20px',
+    color: '#fff',
+    position: 'relative',
+    zIndex: 10,
   },
   heading: {
-    color: '#d32f2f', // Red heading
+    color: '#d32f2f',
   },
   formGroup: {
     marginBottom: '15px',
@@ -90,22 +109,23 @@ const styles = {
     display: 'block',
     fontWeight: 'bold',
     marginBottom: '5px',
-    color: '#fff', // White label text
+    color: '#fff',
   },
   input: {
     width: '100%',
     padding: '8px',
     borderRadius: '4px',
-    border: '1px solid #d32f2f', // Red border for inputs
-    backgroundColor: '#333', // Dark grey background for inputs
-    color: '#fff', // White text in inputs
+    border: '1px solid #d32f2f',
+    backgroundColor: '#333',
+    color: '#fff',
   },
   button: {
     padding: '10px 20px',
-    backgroundColor: '#d32f2f', // Red background
-    color: '#fff', // White text
+    backgroundColor: '#d32f2f',
+    color: '#fff',
     border: 'none',
     borderRadius: '4px',
+    margin: '5px',
     cursor: 'pointer',
     fontSize: '16px',
   },
