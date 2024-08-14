@@ -34,6 +34,7 @@ const Banner = ({ description, link, timer, visible }) => {
 
   return (
     <div style={styles.banner}>
+      <h3 style={styles.title}>This is our Banner</h3> {/* Added "Banner" title */}
       <p style={styles.description}>{description}</p>
       <p style={styles.timer}>{formatTime(timeLeft)}</p>
       {link && (
@@ -55,6 +56,12 @@ const styles = {
     borderRadius: '4px',
     marginBottom: '10px',
     boxShadow: '0 2px 4px rgba(0,0,0,0.3)', // Darker shadow
+  },
+  title: {
+    fontSize: '20px',
+    fontWeight: 'bold',
+    marginBottom: '10px',
+    color: '#f44336', // Bright red text for the title
   },
   description: {
     fontSize: '18px',
